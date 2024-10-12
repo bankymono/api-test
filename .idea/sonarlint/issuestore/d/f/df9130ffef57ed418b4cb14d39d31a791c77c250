@@ -1,2 +1,6 @@
 
-r	java:S106"+Replace this use of System.out by a logger.(óµæşÿÿÿÿ8›Æåˆ¨2J$eecc51b0-171f-4afc-8b9d-50eb5c5165a1
+~	java:S125"<This block of commented-out lines of code should be removed.(“¿ğ€8‡Ş‚Œ¨2J$36b58fa5-a74c-4bd9-a54c-b754c9d79128
+~	java:S125'"<This block of commented-out lines of code should be removed.(“¿ğ€8ö……Œ¨2J$fc3d357b-654f-476b-b247-7bc0ba553328
+r	java:S106/"+Replace this use of System.out by a logger.(óµæşÿÿÿÿ8‡Ş‚Œ¨2J$9a199f7c-3cd1-472b-afe3-e2dc6b718770
+E
+java:S1128"(Remove this unused import 'api.Product'.( ¥¾8¯ÖˆŒ¨2

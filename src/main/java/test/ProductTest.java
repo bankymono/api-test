@@ -1,20 +1,44 @@
 package test;
 
+import api.ClothingProduct;
 import api.Product;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ProductTest {
     public static void main(String[] args) {
-        testGetters(Product.class);
+        testGetters(ClothingProduct.class);
+        testSetters(ClothingProduct.class);
+    }
+
+    public static void testSetters(Class<?> dataClass){
+//        Field [] fields = dataClass.getDeclaredFields();
+
+        List<Field> fields = getAllFields(dataClass);
+
+        for(Field field : fields) {
+            String setterName = "set" + capitalizeFirstLetter(field.getName());
+
+            Method setterMethod = null;
+            try {
+                setterMethod = dataClass.getMethod(setterName, field.getType());
+            }catch (NoSuchMethodException e) {
+                throw new IllegalStateException(String.format("Setter : %s not found", setterName));
+            }
+
+            if(!setterMethod.getReturnType().equals(void.class)) {
+                throw new IllegalStateException(String.format("Setter method : %s has to return void", setterName));
+            }
+        }
     }
 
     public static void testGetters(Class<?> dataClass){
-        Field [] fields = dataClass.getDeclaredFields();
+//        Field [] fields = dataClass.getDeclaredFields();
 
+        List<Field> fields = getAllFields(dataClass);
 
         Map<String, Method> methodNameToMethod = mapMethodNameToMethod(dataClass);
 
@@ -42,6 +66,21 @@ public class ProductTest {
             }
         }
 
+    }
+
+    private static List<Field> getAllFields(Class<?> clazz) {
+        if(clazz == null || clazz.equals(Object.class)) {
+            return Collections.emptyList();
+        }
+
+        Field [] currentClassFields = clazz.getDeclaredFields();
+        List<Field> inheritedFields = getAllFields(clazz.getSuperclass());
+        List<Field> allFields = new ArrayList<>();
+
+        allFields.addAll(Arrays.asList(currentClassFields));
+        allFields.addAll(inheritedFields);
+
+        return allFields;
     }
 
     private static String capitalizeFirstLetter(String fieldName) {
